@@ -1,0 +1,53 @@
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Runtime data
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# Test coverage output
+coverage/
+
+# Vite build output
+dist/
+
+# Dependency directories
+node_modules/
+
+# Yarn v2 / PnP (if you are using Yarn modern)
+.pnp
+.pnp.js
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
+
+# Environment variable files
+.env
+.env.*.local
+
+# TypeScript build info (if using TypeScript)
+*.tsbuildinfo
+
+# Editor directories and files
+.vscode/
+.idea/
+.DS_Store
+
+# OS generated files
+Thumbs.db
+
+# Miscellaneous
+*.pem
+
+# PackageLock
+package-lock.json
+bun.lock
