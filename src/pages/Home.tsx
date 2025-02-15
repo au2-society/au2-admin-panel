@@ -1,52 +1,37 @@
-import { motion } from "framer-motion";
-import { Button } from "@/components/ui/button";
-import { ArrowRight } from "lucide-react";
+import { useState } from "react";
+import backgroundImage from "/login-bg.png";
+import LoginPage from "@/components/landing/LoginPage";
+import PasswordResetPage from "@/components/landing/PasswordResetPage";
 
-const Home = () => {
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.2,
-      },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0 },
-  };
+function App() {
+  const [currentPage, setCurrentPage] = useState<"login" | "reset">("login");
 
   return (
-    <div className="container mx-auto px-4 py-12">
-      <motion.section
-        initial="hidden"
-        animate="visible"
-        variants={containerVariants}
-        className="text-center mb-16"
+    <div className="relative flex min-h-screen items-center justify-center overflow-hidden">
+      <div
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat blur-md"
+        style={{ backgroundImage: `url(${backgroundImage})` }}
       >
-        <motion.h1
-          variants={itemVariants}
-          className="text-5xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-primary to-purple-600"
-        >
-          Welcome to Cvents
-        </motion.h1>
-        <motion.p
-          variants={itemVariants}
-          className="text-xl mb-8 text-muted-foreground"
-        >
-          Powerful admin dashboard for your organization
-        </motion.p>
-        <motion.div variants={itemVariants}>
-          <Button size="lg" className="group">
-            Get Started
-            <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-          </Button>
-        </motion.div>
-      </motion.section>
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-500/30 to-purple-600/30 dark:from-black/70 dark:to-black/70"></div>
+      </div>
+      <div className="relative z-10 w-full max-w-md px-4 py-8 sm:px-0">
+        <div className="mb-8 text-center">
+          <img
+            src="/logo.png"
+            alt="University Logo"
+            className="mx-auto h-20 w-20"
+          />
+        </div>
+        <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl p-6 shadow-lg">
+          {currentPage === "login" ? (
+            <LoginPage onForgotPassword={() => setCurrentPage("reset")} />
+          ) : (
+            <PasswordResetPage onBackToLogin={() => setCurrentPage("login")} />
+          )}
+        </div>
+      </div>
     </div>
   );
-};
+}
 
-export default Home;
+export default App;
