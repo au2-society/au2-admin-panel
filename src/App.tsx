@@ -1,46 +1,47 @@
-"use client";
-
-import { ThemeProvider } from "@/components/global/ThemeProvider";
-import { Routes, Route } from "react-router-dom";
-import Layout from "@/components/Layout";
-import Home from "@/pages/Home";
-import Dashboard from "@/pages/Dashboard";
-import ComingSoon from "@/pages/ComingSoon";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchCurrentAdmin } from "@/store/slices/authSlice";
+import { AppDispatch, RootState } from "@/store/store";
+import { Routes, Route, Navigate } from "react-router-dom";
 import LoadingPage from "@/pages/LoadingPage";
-import { useState, useEffect } from "react";
+import { AuthPage } from "@/pages/auth";
+import { ProfilePage } from "@/pages/profile";
+import DashboardPage from "@/pages/dashboard";
+import { ThemeProvider } from "@/components/global/ThemeProvider";
 
 function App() {
-  const [isLoading, setIsLoading] = useState(true);
+  const dispatch = useDispatch<AppDispatch>();
+  const { isAuthenticated, loading } = useSelector(
+    (state: RootState) => state.auth
+  );
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 2000);
+    if (!isAuthenticated) {
+      dispatch(fetchCurrentAdmin());
+    }
+  }, [dispatch, isAuthenticated]);
 
-    return () => clearTimeout(timer);
-  }, []);
-
-  if (isLoading) {
+  if (loading) {
     return <LoadingPage />;
   }
-
   return (
     <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
       <Routes>
         <Route
           path="/"
           element={
-            <Layout>
-              <Home />
-            </Layout>
+            isAuthenticated ? <Navigate to="/dashboard" /> : <AuthPage />
           }
         />
-        <Route path="/dashboard" element={<Dashboard />}>
-          <Route index element={<ComingSoon />} />
-          <Route path="events" element={<ComingSoon />} />
-          <Route path="participants" element={<ComingSoon />} />
-          <Route path="settings" element={<ComingSoon />} />
-        </Route>
+        <Route
+          path="/dashboard"
+          element={isAuthenticated ? <DashboardPage /> : <Navigate to="/" />}
+        />
+        <Route
+          path="/profile"
+          element={isAuthenticated ? <ProfilePage /> : <Navigate to="/" />}
+        />
+        <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </ThemeProvider>
   );

@@ -1,33 +1,24 @@
-"use client";
+import { AppSidebar } from "@/components/dashboard/app-sidebar";
 
-import { Outlet } from "react-router-dom";
-import { motion } from "framer-motion";
+import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 
-const Dashboard = () => {
+export default function DashboardPage() {
   return (
-    <div className="flex h-screen bg-background">
-      {/* TODO: Sidebar */}
-      <div className="flex-1 flex flex-col overflow-hidden">
-        <header className="bg-background shadow-md z-10">
-          <div className="px-4 sm:px-6 lg:px-8 py-4 flex items-center">
-            <h1 className="text-2xl font-semibold text-foreground">
-              Dashboard
-            </h1>
-          </div>
+    <SidebarProvider>
+      <AppSidebar />
+      <SidebarInset>
+        <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
+          <div className="flex items-center gap-2 px-4">Header</div>
         </header>
-        <main className="flex-1 overflow-x-hidden overflow-y-auto bg-secondary/10">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="container mx-auto px-4 sm:px-6 lg:px-8 py-8"
-          >
-            <Outlet />
-          </motion.div>
-        </main>
-      </div>
-    </div>
+        <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
+          <div className="grid auto-rows-min gap-4 md:grid-cols-3">
+            <div className="aspect-video rounded-xl bg-muted/50" />
+            <div className="aspect-video rounded-xl bg-muted/50" />
+            <div className="aspect-video rounded-xl bg-muted/50" />
+          </div>
+          <div className="min-h-[100vh] flex-1 rounded-xl bg-muted/50 md:min-h-min" />
+        </div>
+      </SidebarInset>
+    </SidebarProvider>
   );
-};
-
-export default Dashboard;
+}
