@@ -9,6 +9,7 @@ export default defineConfig({
       "/api": {
         target: "https://au2-backend.onrender.com",
         changeOrigin: true,
+        rewrite: (path) => path
       },
     },
   },
