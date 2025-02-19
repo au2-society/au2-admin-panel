@@ -5,9 +5,8 @@ import { AppDispatch, RootState } from "@/store/store";
 import { Routes, Route, Navigate } from "react-router-dom";
 import LoadingPage from "@/pages/LoadingPage";
 import { AuthPage } from "@/pages/auth";
-import { ProfilePage } from "@/pages/profile";
-import DashboardPage from "@/pages/dashboard";
 import { ThemeProvider } from "@/components/global/ThemeProvider";
+import DashboardPage from "./pages/dashboard";
 
 function App() {
   const dispatch = useDispatch<AppDispatch>();
@@ -36,10 +35,6 @@ function App() {
         <Route
           path="/dashboard"
           element={isAuthenticated ? <DashboardPage /> : <Navigate to="/" />}
-        />
-        <Route
-          path="/profile"
-          element={isAuthenticated ? <ProfilePage /> : <Navigate to="/" />}
         />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
